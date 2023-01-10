@@ -1,0 +1,5 @@
+module.exports = {
+    'config':'./common/config.ts',
+    'models-path':'./common/dbConnection',
+    'migration-path':'./common/migrations/'
+}

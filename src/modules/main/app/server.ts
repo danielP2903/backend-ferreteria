@@ -1,6 +1,10 @@
 import cors from "cors";
 import express, { Application } from 'express';
+import dbConnection from "../../../common/dbConnection";
 import testRoutes from "../../routes/apiTest.routes";
+import dotenv from "dotenv";
+
+dotenv.config();
 class Server {
     private app: Application;
     private port:String;
@@ -12,6 +16,7 @@ class Server {
     constructor(){
         this.app = express();
         this.port = process.env.PORT || '8000';  
+        this.dbConnection();
         this.middlewares();
         this.routes();
 
@@ -19,12 +24,12 @@ class Server {
       //TODO conectar bd
 
       async dbConnection(){
-        // try {
-        //     await db.authenticate();
-        //     console.log('Database online');
-        // } catch (error) {
-        //     throw new Error( 'error');
-        // }
+        try {
+            await dbConnection.authenticate();
+            console.log('Database online');
+        } catch (error) {
+            throw new Error( 'error');
+        }
     }
 
     middlewares(){
