@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ResponseExpress from '../../common/adapter/responseExpress';
+import ResponseExpress from '../../../common/adapters/responseExpress';
 import TestService from '../services/testService';
 
 export class TestController{

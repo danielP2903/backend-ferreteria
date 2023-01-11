@@ -59,7 +59,9 @@ const SupplierSchema = {
         type:         DataTypes.STRING
     }
 }
+const modelSupplier = SupplierSchema;
 class Supplier extends Model{
+    static save: any;
     static associate(){
         this.hasMany(PurchaseHeader,{
             foreignKey: "idSupplier",
@@ -77,5 +79,5 @@ class Supplier extends Model{
 }
 
 export  {
-    SUPPLIER_TABLE,SupplierSchema,Supplier
+    SUPPLIER_TABLE,SupplierSchema,Supplier,modelSupplier
  }

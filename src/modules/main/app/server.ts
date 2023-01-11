@@ -2,6 +2,8 @@ import cors from "cors";
 import express, { Application } from 'express';
 import dbConnection from "../../../common/dbConnection";
 import testRoutes from "../../routes/apiTest.routes";
+import supplierRoutes from "../../routes/apiSupplier.routes";
+import categoryRoutes from "../../routes/apiCategory.routes";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -10,7 +12,9 @@ class Server {
     private port:String;
     private apiPaths = {
         
-        test:'/api/test'
+        test:'/api/test',
+        supplier:'/api/supplier',
+        category:'/api/category'
 }
 
     constructor(){
@@ -44,7 +48,9 @@ class Server {
     }
 
     routes(){
-        this.app.use(this.apiPaths.test,testRoutes)
+        this.app.use(this.apiPaths.test,testRoutes);
+        this.app.use(this.apiPaths.supplier,supplierRoutes);
+        this.app.use(this.apiPaths.category,categoryRoutes)
         this.app.get("/", (_req, res) => res.status(200).json({ ok: true }));
 
     }

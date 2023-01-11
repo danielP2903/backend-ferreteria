@@ -1,4 +1,4 @@
-import { Products } from "../../common/schemas/product-schema";
+import { Products } from "../../../common/schemas/product-schema";
 export class DaoTestRepository {
 
     public async getTestRepo(){
