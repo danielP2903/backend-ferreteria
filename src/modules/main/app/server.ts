@@ -7,6 +7,7 @@ import categoryRoutes from "../../routes/apiCategory.routes";
 import productRoutes from "../../routes/apiProducts.routes";
 import purchaseRoutes from "../../routes/apiCPurchase.routes";
 import clienteRoutes from "../../routes/apiClient.routes";
+import saleRoutes from "../../routes/apiSale.routes";
 import dotenv from "dotenv";
 
 
@@ -16,12 +17,13 @@ class Server {
     private port:String;
     private apiPaths = {
         
-        test:'/api/test',
-        supplier:'/api/supplier',
-        category:'/api/category',
-        products:'/api/product',
-        purchases:'/api/purchases',
-        client: '/api/cliente'
+        test        :   '/api/test',
+        supplier    :   '/api/supplier',
+        category    :   '/api/category',
+        products    :   '/api/product',
+        purchases   :   '/api/purchases',
+        client      :   '/api/client',
+        sale        :    '/api/sale'
 }
 
     constructor(){
@@ -61,7 +63,8 @@ class Server {
         this.app.use(this.apiPaths.products,productRoutes);
         this.app.use(this.apiPaths.purchases,purchaseRoutes);
         this.app.use(this.apiPaths.category,categoryRoutes)
-        this.app.use(this.apiPaths.client,clienteRoutes)
+        this.app.use(this.apiPaths.client,clienteRoutes);
+        this.app.use(this.apiPaths.sale,saleRoutes);
         this.app.get("/", (_req, res) => res.status(200).json({ ok: true }));
 
     }

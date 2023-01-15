@@ -23,4 +23,12 @@ export class DaoInventoryRepo extends DaoCrudGeneric<IInventory>{
         }
         
     }
+
+    public async substractInventoryProduct(idProduct:number,stock:number){
+        try {
+            await Inventory.update({stock:stock},{where:{idProduct}})
+           } catch (error) {
+               throw new Error("ha ocurrido un error al intentar actualizar el inventario")
+           }
+    }
 }
