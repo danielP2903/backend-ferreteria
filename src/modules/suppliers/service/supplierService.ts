@@ -1,61 +1,66 @@
-import { ISupplier } from '../../../common/interfaces/supplier';
-import DaoCrudGeneric from '../../../common/adapters/dao-crud-generic-repo';
-import { Supplier } from '../../../common/schemas/supplier-schema';
-import { Model } from 'sequelize';
-import { DaoSupplerRepository } from '../repository/daoSupplierRepository';
-import { ServiceResponse } from '../../../common/interfaces/httpResponsesInterface';
-import { HttpStatus } from '../../../utils/enums/httpStatusEnum';
-import { MessagesSuccess } from '../../../utils/enums/messagesSuccessEnum';
-export class SupplierService{
+import { ISupplier } from "../../../common/interfaces/supplier";
+import { DaoSupplerRepository } from "../repository/daoSupplierRepository";
+import { ServiceResponse } from "../../../common/interfaces/httpResponsesInterface";
+import { HttpStatus } from "../../../utils/enums/httpStatusEnum";
+import { MessagesSuccess } from "../../../utils/enums/messagesSuccessEnum";
+export class SupplierService {
+  
+  public async getSuppliers():Promise<ServiceResponse<ISupplier>> {
+    const daoSupplierRepo = new DaoSupplerRepository();
+    const res = await daoSupplierRepo.getItem();
+    const result: ServiceResponse<ISupplier> = {
+      httpStatus: HttpStatus.OK,
+      message: MessagesSuccess.CONSULT,
+      listData: res,
+    };
+    return result;
+  }
 
-    public async getSuppliers(){
+  public async saveSupplier(supplier: ISupplier):Promise<ServiceResponse<ISupplier>> {
+    const daoSupplierRepo = new DaoSupplerRepository();
+    await daoSupplierRepo.validExistSupplier(supplier.name,supplier.ruc);
+    const res = await daoSupplierRepo.saveItem(supplier);
+    const result: ServiceResponse<ISupplier> = {
+      httpStatus: HttpStatus.CREATED,
+      message: MessagesSuccess.CREATED,
+      data: res.dataValues,
+    };
+    return result;
+  }
 
-        const daoSupplierRepo =  new DaoSupplerRepository();
-     
-        const res        = await daoSupplierRepo.getSuppliers();    
-        const result:ServiceResponse<ISupplier> ={
-            httpStatus:HttpStatus.OK,
-            listData:res,
-            message:MessagesSuccess.CONSULT
-        }
-        return result;
+  public async updateSupplier(supplier: ISupplier):Promise<ServiceResponse<ISupplier>> {
+    const daoSupplierRepo = new DaoSupplerRepository();
+
+    const isDataEqualSupplier = await daoSupplierRepo.dataEqualUpdate(
+      supplier.idSupplier
+    );
+
+    if (isDataEqualSupplier.ruc != supplier.ruc) {
+      await daoSupplierRepo.findByRuc(supplier.ruc);
     }
-
-    public async saveSupplier(supplier:ISupplier){
-
-        const daoSupplierRepo =  new DaoSupplerRepository(supplier);
-        await daoSupplierRepo.validExistSupplier();
-        const daoGeneric = new DaoCrudGeneric<ISupplier>(Supplier as unknown as Model);
-        const res        = await daoGeneric.saveItem(supplier);
-        const result:ServiceResponse<ISupplier> ={
-            httpStatus:HttpStatus.CREATED,
-            data:res.dataValues,
-            message:MessagesSuccess.CREATED
-        }
-        return result;
+    if (isDataEqualSupplier.name != supplier.name) {
+      await daoSupplierRepo.findByName(supplier.name);
     }
+    const condition = { where: { idSupplier: supplier.idSupplier } };
+    const daoRepo = new DaoSupplerRepository(condition);
+    const res = await daoRepo.updateItem(supplier);
+    console.log(res);
+    const result: ServiceResponse<ISupplier> = {
+      httpStatus: HttpStatus.OK,
+      message: MessagesSuccess.UPDATED,
+    };
 
-    public async updateSupplier(supplier:ISupplier){
-        const daoSupplierRepo =  new DaoSupplerRepository(supplier);
+    return result;
+  }
 
-        const isDataEqualSupplier =await daoSupplierRepo.dataEqualUpdate(supplier.idSupplier); 
+  public async deleteSupplier(id:number):Promise<ServiceResponse<ISupplier>> {
+    const daoSupplierRepo = new DaoSupplerRepository();
+    await daoSupplierRepo.deleteItem(id);
 
-        if(isDataEqualSupplier.ruc != supplier.ruc){
-            await daoSupplierRepo.findByRuc(supplier.ruc);
-        }
-        if(isDataEqualSupplier.name != supplier.name){
-            await daoSupplierRepo.findByName(supplier.name);
-        }
-
-        // const daoGeneric = new DaoCrudGeneric<ISupplier>(Supplier as unknown as Model);
-        const res        = await daoSupplierRepo.updateSupplier(supplier);
-        console.log(res);
-        
-        const result:ServiceResponse<ISupplier> ={
-            httpStatus:HttpStatus.OK,
-            message:MessagesSuccess.UPDATED
-        }
-
-        return result;
-    }
+    const result: ServiceResponse<ISupplier> = {
+      httpStatus: HttpStatus.OK,
+      message: MessagesSuccess.DELETED,
+    };
+    return result;
+  }
 }

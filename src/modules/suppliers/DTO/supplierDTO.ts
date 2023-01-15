@@ -34,7 +34,9 @@ const updateSupplierJoiSchema = Joi.object({
     status:status.required()
 
 });
-
+const deleteSupplierJoiSchema = Joi.number();
 export {
-    createSupplierJoiSchema,updateSupplierJoiSchema
+    createSupplierJoiSchema,
+    updateSupplierJoiSchema,
+    deleteSupplierJoiSchema
 }

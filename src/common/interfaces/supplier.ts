@@ -2,9 +2,9 @@ import { StatusType } from './statusType';
 export interface ISupplier{
 
     idSupplier      :   number;
-    ruc?            :   string;
+    ruc             :   string;
     name            :   string;
-    businessAdvisor         :   string;
+    businessAdvisor :   string;
     phoneCompany?   :   string;
     phoneAdviser?   :   string;
     address         :   string;

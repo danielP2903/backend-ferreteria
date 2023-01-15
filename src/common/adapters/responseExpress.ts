@@ -5,6 +5,7 @@ class ResponseExpress {
     successResponse(res: Response, data: any) {
         return res.status(200).json({ ...data, ok: true });
       }
+
     
       errorResponse(res: Response, data: Error) {
         const errorMessage: any = {

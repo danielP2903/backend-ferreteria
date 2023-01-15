@@ -4,6 +4,8 @@ import dbConnection from "../../../common/dbConnection";
 import testRoutes from "../../routes/apiTest.routes";
 import supplierRoutes from "../../routes/apiSupplier.routes";
 import categoryRoutes from "../../routes/apiCategory.routes";
+import productRoutes from "../../routes/apiProducts.routes";
+import purchaseRoutes from "../../routes/apiCPurchase.routes";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,7 +16,9 @@ class Server {
         
         test:'/api/test',
         supplier:'/api/supplier',
-        category:'/api/category'
+        category:'/api/category',
+        products:'/api/product',
+        purchases:'/api/purchases'
 }
 
     constructor(){
@@ -50,7 +54,9 @@ class Server {
     routes(){
         this.app.use(this.apiPaths.test,testRoutes);
         this.app.use(this.apiPaths.supplier,supplierRoutes);
-        this.app.use(this.apiPaths.category,categoryRoutes)
+        this.app.use(this.apiPaths.category,categoryRoutes);
+        this.app.use(this.apiPaths.products,productRoutes);
+        this.app.use(this.apiPaths.purchases,purchaseRoutes);
         this.app.get("/", (_req, res) => res.status(200).json({ ok: true }));
 
     }

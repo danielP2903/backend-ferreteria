@@ -1,11 +1,11 @@
 import { Model, DataTypes } from "sequelize";
 import { Products } from "./product-schema";
 
-const UNITY_TABLE = 'unities';
+const UNITY_TABLE = 'unity';
 
 const UnitySchema = {
 
-    id_unity:{
+    idUnity:{
         allowNull:    false,
         autoIncrement:true,
         primaryKey:   true,

@@ -6,6 +6,18 @@ import { JoiAdapter } from '../../../common/adapters/joiAdapter';
 
 export class CategoryController{
 
+    public async getCategories(_req: Request, res: Response) {
+
+    const responseExpress = new ResponseExpress();
+    try {
+      const categoryService = new CategoryService();
+      const result = await categoryService.getCategories();
+      return responseExpress.successResponse(res, result);
+    } catch (error) {
+      return responseExpress.errorResponse(res, error as Error);
+        }
+        }
+
     public async saveCategory(req:Request,res:Response){
         const responseExpress = new ResponseExpress();
         const { body } = req;
@@ -35,4 +47,17 @@ export class CategoryController{
           return responseExpress.errorResponse(res, error as Error);
         }
       } 
+
+      public async deleteCategory(req:Request,res:Response){
+        const responseExpress = new ResponseExpress();
+        const { id } = req.params;
+        try {
+          const categoryService = new CategoryService();
+          const result = await categoryService.deleteCategory(id as unknown as number);
+          return responseExpress.successResponse(res, result);
+        } catch (error) {
+          return responseExpress.errorResponse(res, error as Error);
+        }
+      } 
     }
+

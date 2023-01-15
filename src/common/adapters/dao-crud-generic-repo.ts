@@ -3,11 +3,14 @@ import { Model } from "sequelize";
 class DaoCrudGeneric<T> {
 
     private model!:any;
-    constructor(model:Model){
+    private condition?:any;
+
+    constructor(model:Model,condition?:any){
         this.model = model;
+        this.condition = condition;
     }
 
-    public async getItem(){
+    public async getItem():Promise<T[]>{
         const items = await this.model.findAll();
         return items;
     }
@@ -16,18 +19,28 @@ class DaoCrudGeneric<T> {
         return item 
     }
 
-    public async saveItem(data:T){
-        const item = await this.model.create(data);
+    public async saveItem(data:T,transactional?:any){
+        const item = await this.model.create(data,{transaction:transactional});
         return item;
 
     }
 
-    public async updateItem(data:T,id:number){
-        const item = await this.model.update(data,{where: {id: id}});
+    public async updateItem(data:T,transactional?:any){
+        console.log(transactional);
+        
+        const item = await this.model.update(data,this.condition);
         return item;
     }
 
-    public deleteItem(){
+    public async deleteItem(id:number){
+        const item = await this.model.findByPk(id);
+
+        if(!item){
+            throw new Error("El item ingresado no existe");
+        }
+        await item.destroy();
+
+        return true;
 
     }
 }

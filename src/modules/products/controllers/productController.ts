@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import ResponseExpress from "../../../common/adapters/responseExpress";
-import { createSupplierJoiSchema,updateSupplierJoiSchema } from "../DTO/supplierDTO";
-import { SupplierService } from "../service/supplierService";
 import { JoiAdapter } from "../../../common/adapters/joiAdapter";
+import { ProductsService } from "../services/productService";
+import { createProductJoiSchema, updateProductJoiSchema } from "../DTO/productDTO";
 
-export class SupplierController {
+export class ProductsController {
 
-  public async getSuppliers(_req: Request, res: Response) {
+  public async getProducts(_req: Request, res: Response) {
 
     const responseExpress = new ResponseExpress();
 
 
     try {
-      const supplierService = new SupplierService();
-      const result = await supplierService.getSuppliers();
+      const productsService = new ProductsService();
+      const result = await productsService.getProducts();
       return responseExpress.successResponse(res, result);
     } catch (error) {
       return responseExpress.errorResponse(res, error as Error);
@@ -21,50 +21,50 @@ export class SupplierController {
   }
 
 
-  public async saveSupplier(req: Request, res: Response) {
-    const responseExpress = new ResponseExpress();
-
-    const { body } = req;
-    try {
-      const joiAdapter = new JoiAdapter(createSupplierJoiSchema);
-
-      const _data = await joiAdapter.validate(body);
-      console.log(_data);
-
-      const supplierService = new SupplierService();
-      const result = await supplierService.saveSupplier(body);
-      return responseExpress.successResponse(res, result);
-    } catch (error) {
-      return responseExpress.errorResponse(res, error as Error);
-    }
-  }
-
-  public async updateSupplier(req:Request, res: Response){
+  public async saveProduct(req: Request, res: Response) {
     const responseExpress = new ResponseExpress();
 
     const { body } = req;
     try {
-      const joiAdapter = new JoiAdapter(updateSupplierJoiSchema);
+      const joiAdapter = new JoiAdapter(createProductJoiSchema);
 
       const _data = await joiAdapter.validate(body);
       console.log(_data);
 
-      const supplierService = new SupplierService();
-      const result = await supplierService.updateSupplier(body);
+      const productsService = new ProductsService();
+      const result = await productsService.saveProducts(body);
       return responseExpress.successResponse(res, result);
     } catch (error) {
       return responseExpress.errorResponse(res, error as Error);
     }
   }
-  public async deleteSupplier(req:Request, res: Response){
+
+  public async updateProduct(req:Request, res: Response){
+    const responseExpress = new ResponseExpress();
+
+    const { body } = req;
+    try {
+      const joiAdapter = new JoiAdapter(updateProductJoiSchema);
+
+      const _data = await joiAdapter.validate(body);
+      console.log(_data);
+
+      const productsService = new ProductsService();
+      const result = await productsService.updateProducts(body);
+      return responseExpress.successResponse(res, result);
+    } catch (error) {
+      return responseExpress.errorResponse(res, error as Error);
+    }
+  }
+  public async deleteProduct(req:Request, res: Response){
     const responseExpress = new ResponseExpress();
 
     const { id } = req.params;
     try {
      
 
-      const supplierService = new SupplierService();
-      const result = await supplierService.deleteSupplier(id as unknown as number);
+      const productsService = new ProductsService();
+      const result = await productsService.deleteProducts(id as unknown as number);
       return responseExpress.successResponse(res, result);
     } catch (error) {
       return responseExpress.errorResponse(res, error as Error);

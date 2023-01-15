@@ -3,7 +3,7 @@ import { HttpStatus } from "../../utils/enums/httpStatusEnum";
 export interface ServiceResponse<T> {
   httpStatus: HttpStatus;
   data?: T;
-  listData?:any[];
+  listData?:T[];
   message?: string;
 }
 

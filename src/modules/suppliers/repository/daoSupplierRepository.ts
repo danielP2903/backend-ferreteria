@@ -1,15 +1,17 @@
 import { Supplier } from "../../../common/schemas/supplier-schema";
 import { ISupplier } from '../../../common/interfaces/supplier';
+import DaoCrudGeneric from '../../../common/adapters/dao-crud-generic-repo';
+import { Model } from 'sequelize';
 
-export class DaoSupplerRepository{
+export class DaoSupplerRepository extends DaoCrudGeneric<ISupplier>{
 
-    private data?:ISupplier;
-    constructor(data?:ISupplier){
-        this.data = data
+    constructor(condition?:any){
+        super(Supplier as unknown as Model,condition)
     }
-    public async validExistSupplier(){
-        await this.findByName(this.data!.name);
-        await this.findByRuc(this.data!.ruc);
+
+    public async validExistSupplier(name:string,ruc:string){
+       await this.findByName(name);
+       await this.findByRuc(ruc)
     }
 
     public async getSuppliers(){
@@ -46,8 +48,5 @@ export class DaoSupplerRepository{
         return result.dataValues;
     }
 
-    public async updateSupplier(data:ISupplier){
-        const item = await Supplier.update(data,{where: {idSupplier: data.idSupplier}});
-        return item;
-    }
+ 
 }
