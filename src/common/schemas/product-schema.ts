@@ -4,6 +4,7 @@ import { DetailProforma } from "./detailProforma-schema";
 import { DetailPurchase } from "./detailPurchase-schema";
 import { DocumentES } from "./documentEs-Schema";
 import { Inventory } from "./inventory-schema";
+import { Iva, IVA_TABLE } from "./iva-schema";
 import { Unity, UNITY_TABLE } from "./unity-schema";
 
 const PRODUCTS_TABLE = 'products';
@@ -34,7 +35,7 @@ const ProductSchema = {
     price:{
         allowNull:    true,
         primaryKey:   false,
-        type:         DataTypes.INTEGER
+        type:         DataTypes.DOUBLE
     },
     status:{
         allowNull:    true,
@@ -63,6 +64,17 @@ const ProductSchema = {
         },
         onUpdate:      "CASCADE",
         onDelete:      "SET NULL"
+    },
+    idIva:{
+        field:        "id_iva",
+        allowNull:    false,
+        type:         DataTypes.INTEGER,
+        references:{
+            model:    IVA_TABLE,
+            key:      "id_iva"
+        },
+        onUpdate:      "CASCADE",
+        onDelete:      "SET NULL"
     }
 }
 
@@ -72,6 +84,10 @@ const ProductSchema = {
         this.belongsTo(Category,{
             foreignKey: 'id_category',
             as: 'category'
+        });
+        this.belongsTo(Iva,{
+            foreignKey: 'id_iva',
+            as: 'iva'
         });
         this.belongsTo(Unity,{
             foreignKey: 'id_unity',

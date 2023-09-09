@@ -1,14 +1,16 @@
 import { Router } from "express";
+import { validarJWT } from "../auth/validar-token";
 import { ProductsController } from '../products/controllers/productController';
 
 const router = Router();
 
 
 const  productsController = new ProductsController();
-router.get('/', productsController.getProducts);
-router.post('/', productsController.saveProduct);
-router.put('/', productsController.updateProduct);
-router.delete('/:id', productsController.deleteProduct);
+router.get('/',[validarJWT],productsController.getProducts);
+router.get('/:id',[validarJWT] ,productsController.getById);
+router.post('/',[validarJWT], productsController.saveProduct);
+router.put('/',[validarJWT], productsController.updateProduct);
+router.delete('/:id',[validarJWT] ,productsController.deleteProduct);
 
 
 export default router;

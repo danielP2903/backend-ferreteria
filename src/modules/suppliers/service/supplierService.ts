@@ -55,7 +55,7 @@ export class SupplierService {
 
   public async deleteSupplier(id:number):Promise<ServiceResponse<ISupplier>> {
     const daoSupplierRepo = new DaoSupplerRepository();
-    await daoSupplierRepo.deleteItem(id);
+    await daoSupplierRepo.deleteByStatus(id);
 
     const result: ServiceResponse<ISupplier> = {
       httpStatus: HttpStatus.OK,

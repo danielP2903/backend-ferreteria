@@ -7,6 +7,7 @@ const createProductJoiSchema = Joi.object<IProduct>({
     status:Joi.string().equal("ACTIVO","INACTIVO").required(),
     idCategory:Joi.number().required(),
     idUnity:Joi.number().required(),
+    idIva:Joi.number().required()
 
 });
 const updateProductJoiSchema = Joi.object<IProduct>({
@@ -17,6 +18,7 @@ const updateProductJoiSchema = Joi.object<IProduct>({
     status:Joi.string().equal("ACTIVO","INACTIVO").required(),
     idCategory:Joi.number().required(),
     idUnity:Joi.number().required(),
+    idIva:Joi.number().required()
 
 });
 export {

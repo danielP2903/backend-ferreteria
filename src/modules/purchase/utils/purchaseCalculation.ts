@@ -7,7 +7,7 @@ export class PurchaseCalculation{
     }
     public main(){
         this.calculateSubtotal(this.purchase);
-        const resp = this.calculateTotal(this.subtotal,this.purchase.purchase.iva);
+        const resp = this.calculateTotal(this.subtotal,this.purchase.purchase.iva,this.purchase.purchase.dsto);
         return resp;
     }
     public calculateSubtotal(data:IPurchase){
@@ -21,9 +21,11 @@ export class PurchaseCalculation{
         this.purchase.purchase.subtotal = this.subtotal;
     }
 
-    public calculateTotal(subtotal:number,iva:number){
-
-        const total = subtotal + iva;
+    public calculateTotal(subtotal:number,iva:number,dsto:string){
+        let dstoValid;
+        dstoValid = parseInt(dsto)
+        let total = subtotal + iva;
+        total = total - dstoValid;
         this.purchase.purchase.total = total;
         return this.purchase;
 

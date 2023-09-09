@@ -11,7 +11,7 @@ export class ClientService{
 daoClient = new DaoClientRepository();
 
     public async saveClient (data:IClient){
-        const resp = await this.daoClient.saveClient(data);
+        const resp = await this.daoClient.saveItem(data);
         const result:ServiceResponse<IClient> ={
             httpStatus:HttpStatus.CREATED,
             data:resp.dataValues,
@@ -22,8 +22,8 @@ daoClient = new DaoClientRepository();
 
     public async updateClient (identification:number,data:IClient){
         const existClient = await this.daoClient.findByIdentification(identification,data.email);
-        if(existClient){
-            throw new Error("Ya existe el cliente con la identificación ingresada")
+        if(!existClient){
+            throw new Error("No existe el cliente con la identificación ingresada")
         }
         await this.daoClient.updateClient(data);
         const result: ServiceResponse<IClient> ={
@@ -45,7 +45,7 @@ daoClient = new DaoClientRepository();
     }
 
     public async delete(id:number){
-        await this.daoClient.deleteClient(id)
+        await this.daoClient.deleteByStatus(id)
         const resul: ServiceResponse<IClient> = {
             httpStatus:HttpStatus.OK,
             message:MessagesSuccess.DELETED

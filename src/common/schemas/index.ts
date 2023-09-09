@@ -7,6 +7,7 @@ import { DetailSale, DetailSaleSchema } from "./detailSale-schema";
 import { DocumentES, DocumentEsSchema } from "./documentEs-Schema";
 import { HeaderProformaSchema, ProformaHeader } from "./headerProforma-schema";
 import { Inventory, InventorySchema } from "./inventory-schema";
+import { Iva, IvaSchema } from "./iva-schema";
 import { Products,ProductSchema } from "./product-schema"
 import { PurchaseHeader, PurchaseHeaderSchema } from "./purchaseHeader-schema";
 import { Role, RolSchema } from "./rol-schema";
@@ -31,6 +32,7 @@ function setupModels(sequelize:any){
     Inventory.init(InventorySchema,Inventory.config(sequelize));
     Role.init(RolSchema,Role.config(sequelize));
     User.init(UserSchema,User.config(sequelize));
+    Iva.init(IvaSchema,Iva.config(sequelize));
 
     Category.associate();
     Products.associate();
@@ -47,6 +49,7 @@ function setupModels(sequelize:any){
     Inventory.associate();
     Role.associate();
     User.associate();
+    Iva.associate();
 }
 
 export default setupModels;

@@ -22,9 +22,19 @@ const createSaleDetailJoiSchema = Joi.object<ISaleDetail>({
 
 });
 
+// const documentEs = Joi.object<DocumentEs>({
+//     quantityProduct:   Joi.number().required(),
+//     date:   Joi.required(),
+//     description:   Joi.required(),
+//     status:         Joi.string().equal("ACTIVO","INACTIVO"),
+//     idProduct:   Joi.number().required(),
+
+// });
+
 const createSaleJoiSchema = Joi.object<ISale>({
     saleHeader: createSaleHeaderJoiSchema.required(),
-    saleDetail:Joi.array().allow(createSaleDetailJoiSchema).required()
+    saleDetail:Joi.array().allow(createSaleDetailJoiSchema).required(),
+
 });
 
 

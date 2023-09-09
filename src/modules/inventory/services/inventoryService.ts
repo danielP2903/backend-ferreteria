@@ -2,6 +2,9 @@ import { IInventory } from '../../../common/interfaces/inventory';
 import { DaoInventoryRepo } from '../repository/inventoryRepo';
 import { IDetailPurchase } from '../../../common/interfaces/purchase';
 import { ISaleDetail } from '../../../common/interfaces/sales';
+import { ServiceResponse } from '../../../common/interfaces/httpResponsesInterface';
+import { HttpStatus } from '../../../utils/enums/httpStatusEnum';
+import { MessagesSuccess } from '../../../utils/enums/messagesSuccessEnum';
 export class InventoryService {
     private stockCurrent: number = 0;
     public async saveInventory(data: IInventory, transaction?: any) {
@@ -50,5 +53,23 @@ export class InventoryService {
     }
     public errorInPromise(err: any) {
         throw new Error(err.message)
+    }
+
+    public async getInventory(){
+        const daoInventory =  new DaoInventoryRepo();
+        const res         =  await daoInventory.getItem();
+        const result: ServiceResponse<IInventory> = {
+            httpStatus: HttpStatus.OK,
+            message: MessagesSuccess.CONSULT,
+            listData: res,
+          };
+          return result;
+    
+    }
+
+    public async updateName(description:string,idProduct:number){
+        const daoInventory =  new DaoInventoryRepo();
+        const res = await daoInventory.updateDescription(description,idProduct);
+        return res;
     }
 }

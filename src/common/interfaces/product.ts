@@ -7,4 +7,5 @@ export interface IProduct {
     status          :   StatusType;
     idCategory      :   number;
     idUnity         :   number;
+    idIva           :   number;
 }

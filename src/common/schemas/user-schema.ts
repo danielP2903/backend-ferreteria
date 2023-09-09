@@ -9,7 +9,7 @@ const UserSchema = {
         allowNull:    false,
         autoIncrement:true,
         primaryKey:   true,
-        field:        "id_inventory", 
+        field:        "id_user", 
         type:         DataTypes.INTEGER
     }, 
     nickname:{

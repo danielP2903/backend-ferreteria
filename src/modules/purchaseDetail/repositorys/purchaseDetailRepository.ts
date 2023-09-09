@@ -15,5 +15,11 @@ export class DaoPurchaseDetailRepository extends DaoCrudGeneric<IDetailPurchase>
         await DetailPurchase.bulkCreate(data,{transaction:t})
         
     }
+    
+
+    public async getByIdPurchase(id:number){
+        const res = await DetailPurchase.findAll({where:{idPurchaseHeader:id}});
+        return res;
+    }
 
 }

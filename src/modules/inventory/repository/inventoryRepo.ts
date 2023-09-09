@@ -31,4 +31,12 @@ export class DaoInventoryRepo extends DaoCrudGeneric<IInventory>{
                throw new Error("ha ocurrido un error al intentar actualizar el inventario")
            }
     }
+
+    public async updateDescription(description:string,idProduct:number){
+        try {
+            await Inventory.update({description:`control de cantidades para : ${description}`},{where:{idProduct}})
+           } catch (error) {
+               throw new Error("ha ocurrido un error al intentar actualizar el inventario")
+           }
+    }
 }

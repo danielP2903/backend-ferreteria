@@ -2,6 +2,9 @@ import { IDetailPurchase } from '../../../common/interfaces/purchase';
 import { DaoPurchaseDetailRepository } from '../repositorys/purchaseDetailRepository';
 import { InventoryService } from '../../inventory/services/inventoryService';
 import { ProductsService } from '../../products/services/productService';
+import { ServiceResponse } from '../../../common/interfaces/httpResponsesInterface';
+import { HttpStatus } from '../../../utils/enums/httpStatusEnum';
+import { MessagesSuccess } from '../../../utils/enums/messagesSuccessEnum';
 export class PurchaseDetailService {
 
     public async buildObjectPurchaseDetail(data: IDetailPurchase[], idPurchaseHeader: number) {
@@ -27,5 +30,17 @@ export class PurchaseDetailService {
     }
     public errorInPromise(err: any) {
         throw new Error(err.message)
+    }
+
+    public async getById(id:number):Promise<any>{
+        const daoDetailPurchase = new DaoPurchaseDetailRepository();
+        const res = await  daoDetailPurchase.getByIdPurchase(id);
+
+        const result: ServiceResponse<IDetailPurchase> = {
+            httpStatus: HttpStatus.OK,
+            message: MessagesSuccess.CONSULT,
+            listData: res as unknown as IDetailPurchase[],
+          };
+          return result;
     }
 }

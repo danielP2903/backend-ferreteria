@@ -4,7 +4,7 @@ import { MessagesSuccess } from "../../../utils/enums/messagesSuccessEnum";
 import { IPurchaseHeader, IPurchase } from '../../../common/interfaces/purchase';
 import { DaoPurchaseRepository } from '../repository/purchaseRepository';
 import { PurchaseDetailService } from '../../purchaseDetail/services/purchaseDetailService';
-import { PurchaseCalculation } from '../utils/purchaseCalculation';
+// import { PurchaseCalculation } from '../utils/purchaseCalculation';
 export class PurchaseService {
   
   public async getPurchase():Promise<ServiceResponse<IPurchaseHeader>> {
@@ -23,11 +23,12 @@ export class PurchaseService {
     const existByInvoice = await daoPurchaseRepo.validNumberInvoice(purchase.purchase.numberInvoice);
     if(existByInvoice)throw new Error("Ya existe la compra con este numero de factura")
     purchase.purchase.date = new Date(purchase.purchase.date);
-    const purchaseCalculation = new PurchaseCalculation(purchase);
-    const calculationPurchase = purchaseCalculation.main();
-    const res = await daoPurchaseRepo.saveItem(calculationPurchase.purchase,transaction);
+    // const purchaseCalculation = new PurchaseCalculation(purchase);
+    // const calculationPurchase = purchaseCalculation.main();
+    const res = await daoPurchaseRepo.saveItem(purchase.purchase,transaction);
     const purchaseDetailService = new PurchaseDetailService();
     const detailBuild =await  purchaseDetailService.buildObjectPurchaseDetail(purchase.purchaseDetail,res.dataValues.idPurchaseHeader);
+      
     await purchaseDetailService.savePurchaseDetail(detailBuild,transaction);
     const result: ServiceResponse<IPurchaseHeader> = {
       httpStatus: HttpStatus.CREATED,

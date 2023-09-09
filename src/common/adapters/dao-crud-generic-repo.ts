@@ -43,5 +43,18 @@ class DaoCrudGeneric<T> {
         return true;
 
     }
+    public async deleteByStatus(id:number){
+        const item = await this.model.findByPk(id);
+        
+        if(!item){
+            throw new Error("El item ingresado no existe");
+        }
+        await item.update({status:"INACTIVO"})
+
+        return true;
+
+    }
 }
+
+
 export default DaoCrudGeneric

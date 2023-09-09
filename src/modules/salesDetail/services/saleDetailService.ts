@@ -2,6 +2,9 @@ import { InventoryService } from '../../inventory/services/inventoryService';
 import { ProductsService } from '../../products/services/productService';
 import { ISaleDetail } from '../../../common/interfaces/sales';
 import { DaoSaleDetailRepository } from '../repository/saleDetailRepository';
+import { ServiceResponse } from '../../../common/interfaces/httpResponsesInterface';
+import { HttpStatus } from '../../../utils/enums/httpStatusEnum';
+import { MessagesSuccess } from '../../../utils/enums/messagesSuccessEnum';
 export class SaleDetailService {
 
     public async buildObjectSaleDetail(data: ISaleDetail[], idSaleHeader: number) {
@@ -29,5 +32,17 @@ export class SaleDetailService {
     
     public errorInPromise(err: any) {
         throw new Error(err.message)
+    }
+
+    public async getById(id:number):Promise<any>{
+        const daoDetailSale = new DaoSaleDetailRepository();
+        const res = await  daoDetailSale.getByIdSale(id);
+
+        const result: ServiceResponse<ISaleDetail> = {
+            httpStatus: HttpStatus.OK,
+            message: MessagesSuccess.CONSULT,
+            listData: res as unknown as ISaleDetail[],
+          };
+          return result;
     }
 }

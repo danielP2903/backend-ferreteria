@@ -16,4 +16,9 @@ export class DaoSaleDetailRepository extends DaoCrudGeneric<ISaleDetail>{
         
     }
 
+    public async getByIdSale(id:number){
+        const res = await DetailSale.findAll({where:{idSaleHeader:id}});
+        return res;
+    }
+
 }

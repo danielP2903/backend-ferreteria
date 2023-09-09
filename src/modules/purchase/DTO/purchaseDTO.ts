@@ -11,7 +11,7 @@ const createPurchaseHeaderJoiSchema = Joi.object<IPurchaseHeader>({
     subtotal:       Joi.number().required(),
     iva:            Joi.number().required(),
     email:          Joi.string().email().required(),
-    dsto:           Joi.string().required(),
+    dsto:           Joi.number().required(),
     total:            Joi.number().required(),
 
 });
@@ -33,10 +33,6 @@ const createPurchaseDetailJoiSchema = Joi.object<IDetailPurchase>({
 // )
 
 
-const createPurchaseJoiSchema = Joi.object<IPurchase>({
-    purchase: createPurchaseHeaderJoiSchema,
-    purchaseDetail:Joi.array().allow(createPurchaseDetailJoiSchema)
-});
 
 
 const updatePurchaseHeaderJoiSchema = Joi.object<IPurchaseHeader>({
@@ -46,6 +42,22 @@ const updatePurchaseHeaderJoiSchema = Joi.object<IPurchaseHeader>({
    
 
 });
+
+// const documentEs = Joi.object<DocumentEs>({
+//     quantityProduct:   Joi.number().required(),
+//     date:   Joi.required(),
+//     description:   Joi.required(),
+//     status:         Joi.string().equal("ACTIVO","INACTIVO"),
+//     idProduct:   Joi.number().required(),
+
+// });
+
+const createPurchaseJoiSchema = Joi.object<IPurchase>({
+    purchase: createPurchaseHeaderJoiSchema,
+    purchaseDetail:Joi.array().allow(createPurchaseDetailJoiSchema),
+
+});
+
 
 const updatePurchaseDetailJoiSchema = Joi.object<IDetailPurchase>({
     idDetailPurchase : Joi.number().required(),

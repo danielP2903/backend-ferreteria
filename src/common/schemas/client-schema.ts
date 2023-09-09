@@ -17,7 +17,7 @@ const ClientSchema = {
         allowNull:    false,
         unique:       true,
         primaryKey:   false,
-        type:         DataTypes.INTEGER
+        type:         DataTypes.STRING
     },
     names:{
         allowNull:    false,
